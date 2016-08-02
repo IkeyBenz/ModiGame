@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2A6F81A5F5EEADE0BF3F26F570C55205EC10173F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "65B4F795F22031A50D3BBA306CFA99516E0877B6" : 0,
+    "2A6F81A5F5EEADE0BF3F26F570C55205EC10173F" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "81A74EE0-5CA3-4480-9C85-1F0B8121CD19",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "65B4F795F22031A50D3BBA306CFA99516E0877B6" : "",
+    "2A6F81A5F5EEADE0BF3F26F570C55205EC10173F" : "ModiGame\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ModiGame",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ModiGame.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/IkeyBenz\/ModiGame.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2A6F81A5F5EEADE0BF3F26F570C55205EC10173F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/IkeyBenz\/HighJacked-AttemptThree.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "65B4F795F22031A50D3BBA306CFA99516E0877B6"
+    }
+  ]
+}
