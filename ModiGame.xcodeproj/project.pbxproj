@@ -1,0 +1,573 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C61FEB851D50407B0053652D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEB841D50407B0053652D /* AppDelegate.swift */; };
+		C61FEB871D50407B0053652D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C61FEB861D50407B0053652D /* GameScene.sks */; };
+		C61FEB8E1D50407B0053652D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C61FEB8C1D50407B0053652D /* Main.storyboard */; };
+		C61FEB931D50407B0053652D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C61FEB911D50407B0053652D /* LaunchScreen.storyboard */; };
+		C61FEB9E1D50407B0053652D /* ModiGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEB9D1D50407B0053652D /* ModiGameTests.swift */; };
+		C61FEBA91D50407B0053652D /* ModiGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEBA81D50407B0053652D /* ModiGameUITests.swift */; };
+		C61FEBB71D5040D10053652D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C61FEBB61D5040D10053652D /* Assets.xcassets */; };
+		C61FEBB91D5040F50053652D /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEBB81D5040F50053652D /* GameScene.swift */; };
+		C61FEBBE1D5041470053652D /* ConnectionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEBBD1D5041470053652D /* ConnectionScene.swift */; };
+		C61FEBC01D5041550053652D /* ConnectionScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C61FEBBF1D5041550053652D /* ConnectionScene.sks */; };
+		C61FEBC21D50416F0053652D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEBC11D50416F0053652D /* Player.swift */; };
+		C61FEBC41D5041770053652D /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEBC31D5041770053652D /* Card.swift */; };
+		C61FEBC61D50417E0053652D /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEBC51D50417E0053652D /* Deck.swift */; };
+		C61FEBC81D50418B0053652D /* MultiPeerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEBC71D50418B0053652D /* MultiPeerHelper.swift */; };
+		C61FEBCA1D5041970053652D /* GamestateSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEBC91D5041970053652D /* GamestateSingleton.swift */; };
+		C61FEBCC1D5041A30053652D /* RandomHelpfulShit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEBCB1D5041A30053652D /* RandomHelpfulShit.swift */; };
+		C61FEBCE1D5042630053652D /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61FEBCD1D5042630053652D /* GameViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C61FEB9A1D50407B0053652D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C61FEB791D50407B0053652D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C61FEB801D50407B0053652D;
+			remoteInfo = ModiGame;
+		};
+		C61FEBA51D50407B0053652D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C61FEB791D50407B0053652D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C61FEB801D50407B0053652D;
+			remoteInfo = ModiGame;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C61FEB811D50407B0053652D /* ModiGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModiGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C61FEB841D50407B0053652D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C61FEB861D50407B0053652D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		C61FEB8D1D50407B0053652D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C61FEB921D50407B0053652D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C61FEB941D50407B0053652D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C61FEB991D50407B0053652D /* ModiGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModiGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C61FEB9D1D50407B0053652D /* ModiGameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModiGameTests.swift; sourceTree = "<group>"; };
+		C61FEB9F1D50407B0053652D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C61FEBA41D50407B0053652D /* ModiGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModiGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C61FEBA81D50407B0053652D /* ModiGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModiGameUITests.swift; sourceTree = "<group>"; };
+		C61FEBAA1D50407B0053652D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C61FEBB61D5040D10053652D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C61FEBB81D5040F50053652D /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		C61FEBBD1D5041470053652D /* ConnectionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionScene.swift; sourceTree = "<group>"; };
+		C61FEBBF1D5041550053652D /* ConnectionScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ConnectionScene.sks; sourceTree = "<group>"; };
+		C61FEBC11D50416F0053652D /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		C61FEBC31D5041770053652D /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		C61FEBC51D50417E0053652D /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
+		C61FEBC71D50418B0053652D /* MultiPeerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPeerHelper.swift; sourceTree = "<group>"; };
+		C61FEBC91D5041970053652D /* GamestateSingleton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamestateSingleton.swift; sourceTree = "<group>"; };
+		C61FEBCB1D5041A30053652D /* RandomHelpfulShit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomHelpfulShit.swift; sourceTree = "<group>"; };
+		C61FEBCD1D5042630053652D /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C61FEB7E1D50407B0053652D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C61FEB961D50407B0053652D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C61FEBA11D50407B0053652D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C61FEB781D50407B0053652D = {
+			isa = PBXGroup;
+			children = (
+				C61FEB831D50407B0053652D /* ModiGame */,
+				C61FEB9C1D50407B0053652D /* ModiGameTests */,
+				C61FEBA71D50407B0053652D /* ModiGameUITests */,
+				C61FEB821D50407B0053652D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C61FEB821D50407B0053652D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C61FEB811D50407B0053652D /* ModiGame.app */,
+				C61FEB991D50407B0053652D /* ModiGameTests.xctest */,
+				C61FEBA41D50407B0053652D /* ModiGameUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C61FEB831D50407B0053652D /* ModiGame */ = {
+			isa = PBXGroup;
+			children = (
+				C61FEB841D50407B0053652D /* AppDelegate.swift */,
+				C61FEBCD1D5042630053652D /* GameViewController.swift */,
+				C61FEBBC1D5041210053652D /* HelperFiles */,
+				C61FEBBB1D50410B0053652D /* Scenes */,
+				C61FEBBA1D5041010053652D /* Objects */,
+				C61FEB8C1D50407B0053652D /* Main.storyboard */,
+				C61FEB911D50407B0053652D /* LaunchScreen.storyboard */,
+				C61FEB941D50407B0053652D /* Info.plist */,
+				C61FEBB61D5040D10053652D /* Assets.xcassets */,
+			);
+			path = ModiGame;
+			sourceTree = "<group>";
+		};
+		C61FEB9C1D50407B0053652D /* ModiGameTests */ = {
+			isa = PBXGroup;
+			children = (
+				C61FEB9D1D50407B0053652D /* ModiGameTests.swift */,
+				C61FEB9F1D50407B0053652D /* Info.plist */,
+			);
+			path = ModiGameTests;
+			sourceTree = "<group>";
+		};
+		C61FEBA71D50407B0053652D /* ModiGameUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C61FEBA81D50407B0053652D /* ModiGameUITests.swift */,
+				C61FEBAA1D50407B0053652D /* Info.plist */,
+			);
+			path = ModiGameUITests;
+			sourceTree = "<group>";
+		};
+		C61FEBBA1D5041010053652D /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				C61FEBC51D50417E0053652D /* Deck.swift */,
+				C61FEBC31D5041770053652D /* Card.swift */,
+				C61FEBC11D50416F0053652D /* Player.swift */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
+		C61FEBBB1D50410B0053652D /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				C61FEBBD1D5041470053652D /* ConnectionScene.swift */,
+				C61FEBBF1D5041550053652D /* ConnectionScene.sks */,
+				C61FEBB81D5040F50053652D /* GameScene.swift */,
+				C61FEB861D50407B0053652D /* GameScene.sks */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		C61FEBBC1D5041210053652D /* HelperFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C61FEBC71D50418B0053652D /* MultiPeerHelper.swift */,
+				C61FEBC91D5041970053652D /* GamestateSingleton.swift */,
+				C61FEBCB1D5041A30053652D /* RandomHelpfulShit.swift */,
+			);
+			name = HelperFiles;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C61FEB801D50407B0053652D /* ModiGame */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C61FEBAD1D50407B0053652D /* Build configuration list for PBXNativeTarget "ModiGame" */;
+			buildPhases = (
+				C61FEB7D1D50407B0053652D /* Sources */,
+				C61FEB7E1D50407B0053652D /* Frameworks */,
+				C61FEB7F1D50407B0053652D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ModiGame;
+			productName = ModiGame;
+			productReference = C61FEB811D50407B0053652D /* ModiGame.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C61FEB981D50407B0053652D /* ModiGameTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C61FEBB01D50407B0053652D /* Build configuration list for PBXNativeTarget "ModiGameTests" */;
+			buildPhases = (
+				C61FEB951D50407B0053652D /* Sources */,
+				C61FEB961D50407B0053652D /* Frameworks */,
+				C61FEB971D50407B0053652D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C61FEB9B1D50407B0053652D /* PBXTargetDependency */,
+			);
+			name = ModiGameTests;
+			productName = ModiGameTests;
+			productReference = C61FEB991D50407B0053652D /* ModiGameTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C61FEBA31D50407B0053652D /* ModiGameUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C61FEBB31D50407B0053652D /* Build configuration list for PBXNativeTarget "ModiGameUITests" */;
+			buildPhases = (
+				C61FEBA01D50407B0053652D /* Sources */,
+				C61FEBA11D50407B0053652D /* Frameworks */,
+				C61FEBA21D50407B0053652D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C61FEBA61D50407B0053652D /* PBXTargetDependency */,
+			);
+			name = ModiGameUITests;
+			productName = ModiGameUITests;
+			productReference = C61FEBA41D50407B0053652D /* ModiGameUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C61FEB791D50407B0053652D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Ikey Benzaken";
+				TargetAttributes = {
+					C61FEB801D50407B0053652D = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					C61FEB981D50407B0053652D = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = C61FEB801D50407B0053652D;
+					};
+					C61FEBA31D50407B0053652D = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = C61FEB801D50407B0053652D;
+					};
+				};
+			};
+			buildConfigurationList = C61FEB7C1D50407B0053652D /* Build configuration list for PBXProject "ModiGame" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C61FEB781D50407B0053652D;
+			productRefGroup = C61FEB821D50407B0053652D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C61FEB801D50407B0053652D /* ModiGame */,
+				C61FEB981D50407B0053652D /* ModiGameTests */,
+				C61FEBA31D50407B0053652D /* ModiGameUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C61FEB7F1D50407B0053652D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C61FEB871D50407B0053652D /* GameScene.sks in Resources */,
+				C61FEB931D50407B0053652D /* LaunchScreen.storyboard in Resources */,
+				C61FEBC01D5041550053652D /* ConnectionScene.sks in Resources */,
+				C61FEBB71D5040D10053652D /* Assets.xcassets in Resources */,
+				C61FEB8E1D50407B0053652D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C61FEB971D50407B0053652D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C61FEBA21D50407B0053652D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C61FEB7D1D50407B0053652D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C61FEBCE1D5042630053652D /* GameViewController.swift in Sources */,
+				C61FEBC61D50417E0053652D /* Deck.swift in Sources */,
+				C61FEBB91D5040F50053652D /* GameScene.swift in Sources */,
+				C61FEBC41D5041770053652D /* Card.swift in Sources */,
+				C61FEBBE1D5041470053652D /* ConnectionScene.swift in Sources */,
+				C61FEBCC1D5041A30053652D /* RandomHelpfulShit.swift in Sources */,
+				C61FEBC21D50416F0053652D /* Player.swift in Sources */,
+				C61FEB851D50407B0053652D /* AppDelegate.swift in Sources */,
+				C61FEBCA1D5041970053652D /* GamestateSingleton.swift in Sources */,
+				C61FEBC81D50418B0053652D /* MultiPeerHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C61FEB951D50407B0053652D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C61FEB9E1D50407B0053652D /* ModiGameTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C61FEBA01D50407B0053652D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C61FEBA91D50407B0053652D /* ModiGameUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C61FEB9B1D50407B0053652D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C61FEB801D50407B0053652D /* ModiGame */;
+			targetProxy = C61FEB9A1D50407B0053652D /* PBXContainerItemProxy */;
+		};
+		C61FEBA61D50407B0053652D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C61FEB801D50407B0053652D /* ModiGame */;
+			targetProxy = C61FEBA51D50407B0053652D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C61FEB8C1D50407B0053652D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C61FEB8D1D50407B0053652D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C61FEB911D50407B0053652D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C61FEB921D50407B0053652D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C61FEBAB1D50407B0053652D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C61FEBAC1D50407B0053652D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C61FEBAE1D50407B0053652D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = ModiGame/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.IkeyBenz.ModiGame;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C61FEBAF1D50407B0053652D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = ModiGame/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.IkeyBenz.ModiGame;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		C61FEBB11D50407B0053652D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = ModiGameTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.IkeyBenz.ModiGameTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ModiGame.app/ModiGame";
+			};
+			name = Debug;
+		};
+		C61FEBB21D50407B0053652D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = ModiGameTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.IkeyBenz.ModiGameTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ModiGame.app/ModiGame";
+			};
+			name = Release;
+		};
+		C61FEBB41D50407B0053652D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = ModiGameUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.IkeyBenz.ModiGameUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = ModiGame;
+			};
+			name = Debug;
+		};
+		C61FEBB51D50407B0053652D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = ModiGameUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.IkeyBenz.ModiGameUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = ModiGame;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C61FEB7C1D50407B0053652D /* Build configuration list for PBXProject "ModiGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C61FEBAB1D50407B0053652D /* Debug */,
+				C61FEBAC1D50407B0053652D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C61FEBAD1D50407B0053652D /* Build configuration list for PBXNativeTarget "ModiGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C61FEBAE1D50407B0053652D /* Debug */,
+				C61FEBAF1D50407B0053652D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		C61FEBB01D50407B0053652D /* Build configuration list for PBXNativeTarget "ModiGameTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C61FEBB11D50407B0053652D /* Debug */,
+				C61FEBB21D50407B0053652D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		C61FEBB31D50407B0053652D /* Build configuration list for PBXNativeTarget "ModiGameUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C61FEBB41D50407B0053652D /* Debug */,
+				C61FEBB51D50407B0053652D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C61FEB791D50407B0053652D /* Project object */;
+}
