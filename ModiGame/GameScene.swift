@@ -29,7 +29,7 @@ class GameScene: SKScene {
         background.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
         
         if GameStateSingleton.sharedInstance.myTurnToDeal {
-            dealButton.fontSize = 44
+            dealButton.fontSize = 24
             dealButton.text = "Deal Cards"
             dealButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.75, y: CGRectGetMaxY(self.frame) / 5)
             dealButton.zPosition = 1
@@ -39,10 +39,8 @@ class GameScene: SKScene {
             GameStateSingleton.sharedInstance.bluetoothService.sendData("deckString" + deck.cardsString)
         }
         
-        
         self.addChild(background)
         self.addChild(dealButton)
-        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -63,27 +61,34 @@ class GameScene: SKScene {
         /* Called before each frame is rendered */
     }
     
+    func loopableIndex(index: Int, range: Int) -> Int {
+        var x = index
+        if range == 0 {
+            x = 0
+        } else {
+            while x > range {
+                x = x - range - 1
+            }
+        }
+        return x
+    }
+    
     func placeDeckOnScreen() {
         var x: CGFloat = 1
         for card in deck.cards {
             addCard(card, zPos: x)
             x = x + 1
         }
-        
-        let players = SKLabelNode(fontNamed: "Chalkduster")
-        players.text = ""
-        players.fontSize = 12
-        for player in GameStateSingleton.sharedInstance.orderedPlayers {
-            players.text? += player.name + ", "
-        }
-        players.position = CGPoint(x: frame.maxX / 2, y: frame.maxY / 2)
-        players.zPosition = 100
-        self.addChild(players)
+    }
+    func resizeCard(card: Card) -> CGSize {
+        let aspectRatio = card.size.width / card.size.height
+        let setHeight = self.frame.size.height / 4.5
+        return CGSize(width: setHeight * aspectRatio, height: setHeight)
     }
     
     func addCard(card: Card, zPos: CGFloat) {
         let randomRotation = arc4random_uniform(10)
-        card.xScale = 0.19; card.yScale = 0.19
+        card.size = resizeCard(card)
         card.position = CGPoint(x: frame.maxX * 0.75, y: frame.maxY * 0.4)
         card.zRotation = (CGFloat(randomRotation) - 5) * CGFloat(M_PI) / 180
         card.zPosition = zPos
@@ -94,9 +99,6 @@ class GameScene: SKScene {
     }
     
     func dealCards() {
-        //FIGURE OUT A UNIVERSAL DEALCARDS METHOD THAT DEALS EVERY PLAYERS RESPECTIVE CARD TO THE BOTTOM OF THEIR SCREENS - DONE
-        //WHILE ALSO MAINTAINING A SET ORDER OF PLAYERS - DONE
-        
         let referenceCard = SKSpriteNode(imageNamed: "ace_of_spades")
         var radius = (frame.size.height / 2) - (deckOfCards[0].frame.height)
         let centerPoint = CGPoint(x: frame.maxX / 4, y: frame.maxY / 2)
@@ -112,7 +114,7 @@ class GameScene: SKScene {
         
         let angle: CGFloat = (((360 / CGFloat(GameStateSingleton.sharedInstance.orderedPlayers.count)) * CGFloat(cardsInPlay.count + (2 - playerIndexOrder))).toRadians()) - 90.toRadians()
         
-        referenceCard.zRotation = 90 * CGFloat(M_PI) / 180
+        referenceCard.zRotation = 90.toRadians()
         referenceCard.position.x = centerPoint.x - radius
         referenceCard.xScale = 0.2; referenceCard.yScale = 0.2
         
@@ -121,13 +123,27 @@ class GameScene: SKScene {
             referenceCard.position.x = centerPoint.x - radius
         }
         
+        
         let actionMove = SKAction.moveTo(CGPoint(x: centerPoint.x + (cos(angle) * radius),y: centerPoint.y + (sin(angle) * radius)), duration: 0.5)
         let actionRotate = SKAction.rotateToAngle((angle + 90.toRadians()), duration: 0.5)
         deckOfCards.last?.runAction(actionMove)
         deckOfCards.last?.runAction(actionRotate)
         
-        deckOfCards.last?.showPlayerName("PlayerName")
+        let playerLabel = SKLabelNode(fontNamed: "Chalkduster")
+        print(loopableIndex(cardsInPlay.count + 1, range: GameStateSingleton.sharedInstance.orderedPlayers.count))
+        playerLabel.text = GameStateSingleton.sharedInstance.orderedPlayers[loopableIndex(cardsInPlay.count + 1, range: GameStateSingleton.sharedInstance.orderedPlayers.count - 1)].name
+        playerLabel.fontSize = 12
+        playerLabel.position = CGPointMake(centerPoint.x + (cos(angle) * (radius + (referenceCard.frame.height / 1.8))), centerPoint.y + (sin(angle) * (radius + (referenceCard.frame.height / 1.8))))
+        playerLabel.zRotation = angle + 90.toRadians()
+        playerLabel.zPosition = 1.0
+        self.addChild(playerLabel)
+        print(playerLabel.position)
+        print(frame)
+        print(view?.frame)
+        
+        
         cardsInPlay.append(deckOfCards.last!)
+        GameStateSingleton.sharedInstance.orderedPlayers[cardsInPlay.count - 1].card = deckOfCards.last!
         deckOfCards.removeLast()
     }
     

@@ -44,7 +44,7 @@ class ConnectionScene: SKScene {
         let scene = GameScene(fileNamed: "GameScene")
         skView.showsFPS = true
         skView.showsNodeCount = true
-        scene?.scaleMode = .AspectFill
+        scene?.scaleMode = .ResizeFill
         skView.presentScene(scene)
     }
     

@@ -19,6 +19,7 @@ class Card: SKSpriteNode {
     let backTexture: SKTexture!
     var backShowing: Bool = true
     var ownerLabel = SKLabelNode(fontNamed: "Chalkduster")
+
     
     init(suit: String, readableRank: String, rank: Int) {
         
