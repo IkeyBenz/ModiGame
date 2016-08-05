@@ -10,6 +10,9 @@ protocol ConnectionSceneDelegate {
 protocol GameSceneDelegate {
     func heresTheNewDeck(deck: Deck)
     func dealPeersCards()
+    func updateLabel(str: String)
+    func yourTurn()
+    func playersTradedCards(playerOne: Player, playerTwo: Player)
 }
 
 
@@ -58,25 +61,7 @@ class ModiBlueToothService: NSObject {
             }
         }
     }
-//    func sendPeerOrder(peers: [MCPeerID]) {
-//        if session.connectedPeers.count > 0 {
-//            let data = NSKeyedArchiver.archivedDataWithRootObject(peers)
-//            var error : NSError?
-//            do {
-//                try self.session.sendData(data, toPeers: session.connectedPeers, withMode: MCSessionSendDataMode.Reliable)
-//            } catch let error1 as NSError {
-//                error = error1
-//                print("%@", "\(error)")
-//            }
-//        }
-//    }
-    
-//    func sendNewPeerOrderToSingleton() {
-//        GameStateSingleton.sharedInstance.orderedPlayers = [Player(name: self.myPeerID.displayName, peerID: self.myPeerID)]
-//        for peer in self.session.connectedPeers {
-//            GameStateSingleton.sharedInstance.orderedPlayers.append(Player(name: peer.displayName, peerID: peer))
-//        }
-//    }
+
     func peerStringsArray(str: String) -> [String] {
         var peerStrings: [String] = []
         var currentPeer: String = ""
@@ -90,6 +75,35 @@ class ModiBlueToothService: NSObject {
             }
         }
         return peerStrings
+    }
+    
+    func handleCardSwapUsingString(string: String) {
+        var playerOneString: String = ""
+        var playerTwoString: String = ""
+        var hitPeriod: Bool = false
+        var player1: Player!
+        var player2: Player!
+        
+        for character in string.characters {
+            if character != "." {
+                if !hitPeriod {
+                    playerOneString += String(character)
+                } else {
+                    playerTwoString += String(character)
+                }
+            } else {
+                hitPeriod = true
+            }
+        }
+        
+        for player in GameStateSingleton.sharedInstance.orderedPlayers {
+            if player.name == playerOneString {
+                player1 = player
+            } else if player.name == playerTwoString {
+                player2 = player
+            }
+        }
+        gameSceneDelegate?.playersTradedCards(player1, playerTwo: player2)
     }
     
 }
@@ -150,12 +164,31 @@ extension ModiBlueToothService: MCSessionDelegate {
                 let peerOrder = str.stringByReplacingOccurrencesOfString("peerOrder", withString: "")
                 connectionSceneDelegate?.recievedUniversalPeerOrderFromHost(peerStringsArray(peerOrder))
             }
+            
+            if str.substringToIndex(str.startIndex.advancedBy(11)) == "updateLabel" {
+                let updateString = str.stringByReplacingOccurrencesOfString("updateLabel", withString: "")
+                gameSceneDelegate?.updateLabel(updateString)
+            }
+            
+            if str.substringToIndex(str.startIndex.advancedBy(11)) == "playersTurn" {
+                let player = str.stringByReplacingOccurrencesOfString("playersTurn", withString: "")
+                if player == self.session.myPeerID.displayName {
+                    gameSceneDelegate?.yourTurn()
+                }
+            }
+            if str.substringToIndex(str.startIndex.advancedBy(12)) == "playerTraded" {
+                let string = str.stringByReplacingOccurrencesOfString("playerTraded", withString: "")
+                self.handleCardSwapUsingString(string)
+            }
         }
         
         
     }
     func session(session: MCSession, peer peerID: MCPeerID, didChangeState state: MCSessionState) {
         print("\(peerID.displayName) did change state: \(state.stringValue())")
+        if state == .NotConnected {
+            serviceBrowser.invitePeer(peerID, toSession: self.session, withContext: nil, timeout: 30)
+        }
         self.connectionSceneDelegate?.connectedDevicesChanged(self, connectedDevices: session.connectedPeers.map({$0.displayName}))
         if GameStateSingleton.sharedInstance.currentGameState == .WaitingForPlayers {
         }

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import MultipeerConnectivity
+import SpriteKit
 
 extension CGFloat {
     func toRadians() -> CGFloat {
