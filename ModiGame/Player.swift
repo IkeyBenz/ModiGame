@@ -15,10 +15,12 @@ class Player {
     var card: Card!
     var name: String
     var peerID: MCPeerID
+    var lives: Int
     
     init(name: String, peerID: MCPeerID) {
         self.name = name
         self.peerID = peerID
+        self.lives = 3
     }
 
 }
