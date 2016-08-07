@@ -8,6 +8,11 @@
 
 import SpriteKit
 
+//  NEXT MOVE:
+//  - DISABLE TRADING WITH KINGS
+//  - IF PLAYER IS FIRST IN ORDER (IF PLAYER IS THE DEALER) HE SWITCHES WITH THE DECK AND THE ROUND ENDS
+//  - LET THAT RUN IN AN ENDLESS LOOP UNTIL ONLY ONE LIFE REMAINS
+
 
 class GameScene: SKScene {
     
@@ -92,6 +97,9 @@ class GameScene: SKScene {
                         self.dealButton.removeFromParent()
                         GS.myTurnToDeal = false
                         self.nextPlayerGoes()
+                        for player in GS.orderedPlayers {
+                            print("\(player.name) owns \(player.card.readableRank)")
+                        }
                     }
                 }
             }
@@ -129,16 +137,24 @@ class GameScene: SKScene {
     }
     
     func tradeCardWithPlayer(playerOne: Player, playerTwo: Player) {
+        let temp = playerOne.card
         moveCards(playerOne.card, card2: playerTwo.card)
         playerOne.card = playerTwo.card
+        playerTwo.card = temp
+        playerOne.card.owner = playerOne
+        playerTwo.card.owner = playerTwo
     }
     
     func moveCards(card1: Card, card2: Card) {
         let moveToCard1 = SKAction.moveTo(card1.position, duration: 0.5)
         let moveToCard2 = SKAction.moveTo(card2.position, duration: 0.5)
+        let rotateCard1 = SKAction.rotateToAngle(card2.zRotation, duration: 0.5)
+        let rotateCard2 = SKAction.rotateToAngle(card1.zRotation, duration: 0.5)
         
         card1.runAction(moveToCard2)
+        card1.runAction(rotateCard1)
         card2.runAction(moveToCard1)
+        card2.runAction(rotateCard2)
     }
     
     func loopableIndex(index: Int, range: Int) -> Int {
@@ -195,24 +211,26 @@ class GameScene: SKScene {
             referenceCard.position.x = centerPoint.x - radius
         }
         
-        
-        let actionMove = SKAction.moveTo(CGPoint(x: centerPoint.x + (cos(angle) * radius),y: centerPoint.y + (sin(angle) * radius)), duration: 0.5)
+        let position = CGPointMake(centerPoint.x + (cos(angle) * radius), centerPoint.y + (sin(angle) * radius))
+        let actionMove = SKAction.moveTo(position, duration: 0.5)
         let actionRotate = SKAction.rotateToAngle((angle + 90.toRadians()), duration: 0.5)
         deckOfCards.last?.runAction(actionMove)
         deckOfCards.last?.runAction(actionRotate)
         
         let playerLabel = SKLabelNode(fontNamed: "Chalkduster")
-        playerLabel.text = GS.orderedPlayers[loopableIndex(cardsInPlay.count + 1, range: GS.orderedPlayers.count - 1)].name
+        let fivePercentWidth = self.frame.size.width * 0.05
+        let fivePercentHeight = self.frame.size.height * 0.05
+        playerLabel.text = GS.orderedPlayers[loopableIndex(cardsInPlay.count + 1, range: GS.orderedPlayers.count)].name
         playerLabel.fontSize = 12
-        playerLabel.position = CGPointMake(centerPoint.x + (cos(angle) * (radius + (referenceCard.frame.height))), centerPoint.y + (sin(angle) * (radius + (referenceCard.frame.height))))
+        playerLabel.position = CGPointMake(position.x + (cos(angle) * ((deckOfCards.last!.size.width / 2) + fivePercentWidth)), position.y + (sin(angle) * ((deckOfCards.last!.size.height / 2) + fivePercentHeight)))
         playerLabel.zRotation = angle + 90.toRadians()
         playerLabel.zPosition = 1.0
         self.addChild(playerLabel)
         
         
         cardsInPlay.append(deckOfCards.last!)
-        GS.orderedPlayers[cardsInPlay.count - 1].card = deckOfCards.last!
-        deckOfCards.last!.owner = GS.orderedPlayers[cardsInPlay.count - 1]
+        GS.orderedPlayers[loopableIndex(cardsInPlay.count, range: GS.orderedPlayers.count)].card = deckOfCards.last!
+        deckOfCards.last!.owner = GS.orderedPlayers[loopableIndex(cardsInPlay.count, range: GS.orderedPlayers.count)]
         deckOfCards.removeLast()
     }
     
