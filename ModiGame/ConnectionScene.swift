@@ -110,10 +110,8 @@ extension ConnectionScene: ConnectionSceneDelegate {
 }
 
 extension ConnectionScene: UITextFieldDelegate {
-//    func textFieldDidEndEditing(textField: UITextField) {
-//        initializeBluetooth(textField)
-//    }
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        GameStateSingleton.sharedInstance.bluetoothService = nil
         initializeBluetooth(textField)
         return true
     }

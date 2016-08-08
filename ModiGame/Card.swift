@@ -20,7 +20,7 @@ class Card: SKSpriteNode {
     var backShowing: Bool = true
     var ownerLabel = SKLabelNode(fontNamed: "Chalkduster")
     var owner: Player!
-
+    
     
     init(suit: String, readableRank: String, rank: Int) {
         
@@ -38,7 +38,7 @@ class Card: SKSpriteNode {
         if self.readableRank == "Jack" {prefix = "jack"}
         if self.readableRank == "Queen" {prefix = "queen"}
         if self.readableRank == "King" {prefix = "king"}
-
+        
         frontTexture = SKTexture(imageNamed: prefix + "_of_" + suit)
         backTexture = SKTexture(imageNamed: "cardBack")
         
@@ -49,12 +49,6 @@ class Card: SKSpriteNode {
         fatalError("SomeError")
     }
     
-    func isBiggerThan(card: Card) -> Bool {
-        if self.rank > card.rank {
-            return true
-        }
-        return false
-    }
     
     func cardInfo() -> (suit: String, readableRank: String, rank: Int, suitIndex: Int) {
         return (self.suit, self.readableRank, self.rank, self.suitIndex)
@@ -79,7 +73,12 @@ class Card: SKSpriteNode {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        flip()
+        if owner != nil {
+            if owner.peerID  == GameStateSingleton.sharedInstance.myPlayer.peerID {
+                flip()
+            }
+        }
+        
     }
     
     

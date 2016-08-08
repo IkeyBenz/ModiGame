@@ -13,6 +13,8 @@ protocol GameSceneDelegate {
     func updateLabel(str: String)
     func yourTurn()
     func playersTradedCards(playerOne: Player, playerTwo: Player)
+    func playerTradedWithDeck(player: Player)
+    func endRound()
 }
 
 
@@ -104,6 +106,7 @@ class ModiBlueToothService: NSObject {
             }
         }
         gameSceneDelegate?.playersTradedCards(player1, playerTwo: player2)
+        gameSceneDelegate?.updateLabel("\(player1.name) traded cards with \(player2.name)")
     }
     
 }
@@ -153,6 +156,9 @@ extension ModiBlueToothService: MCSessionDelegate {
         if str == "dealCards" {
             gameSceneDelegate?.dealPeersCards()
         }
+        if str == "endRound" {
+            gameSceneDelegate?.endRound()
+        }
         
         if str.characters.count > 9 {
             if str.substringToIndex(str.startIndex.advancedBy(10)) == "deckString" {
@@ -176,10 +182,21 @@ extension ModiBlueToothService: MCSessionDelegate {
                     gameSceneDelegate?.yourTurn()
                 }
             }
+            
+            if str.substringToIndex(str.startIndex.advancedBy(11)) == "hittingDeck" {
+                let string = str.stringByReplacingOccurrencesOfString("hittingDeck", withString: "")
+                for player in GameStateSingleton.sharedInstance.orderedPlayers {
+                    if string == player.name {
+                        gameSceneDelegate?.playerTradedWithDeck(player)
+                    }
+                }
+            }
+            
             if str.substringToIndex(str.startIndex.advancedBy(12)) == "playerTraded" {
                 let string = str.stringByReplacingOccurrencesOfString("playerTraded", withString: "")
                 self.handleCardSwapUsingString(string)
             }
+            
         }
         
         

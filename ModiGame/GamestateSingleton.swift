@@ -24,6 +24,7 @@ class GameStateSingleton {
     var deviceName: String = ""
     var orderedPlayers: [Player] = []
     var playersDictionary: [String: MCPeerID] = [:]
+    var myPlayer: Player!
     
     
 }
