@@ -14,12 +14,16 @@ import SpriteKit
 //  - LET THAT RUN IN AN ENDLESS LOOP UNTIL ONLY ONE LIFE REMAINS
 
 
+// FIX THE ENDOFROUND FUNCTION
+// YOU CALLED IT NINE DIFFERENT TIMES, FUCKHEAD.
+
 class GameScene: SKScene {
     
     let GS = GameStateSingleton.sharedInstance
     var deck = Deck()
     var players: Int = GameStateSingleton.sharedInstance.orderedPlayers.count
-    var cardsInPlay: [SKSpriteNode] = []
+    var cardsInPlay: [Card] = []
+    var cardsInTrash: [Card] = []
     let dealButton = SKLabelNode(fontNamed: "Chalkduster")
     var deckOfCards: [Card] = []
     var tradeButton = SKLabelNode(fontNamed: "Chalkduster")
@@ -27,6 +31,7 @@ class GameScene: SKScene {
     var updateLabel = SKLabelNode(fontNamed: "Chalkduster")
     var roundLabel = SKLabelNode(fontNamed: "Chalkduster")
     var roundNubmer: Int = 0
+    var myTurnToDeal: Bool = false
     
     let playerIndexOrder: Int = {
         let index: Int = 0
@@ -41,7 +46,6 @@ class GameScene: SKScene {
     let myPlayer: Player = {
         for player in GameStateSingleton.sharedInstance.orderedPlayers {
             if player.peerID == GameStateSingleton.sharedInstance.bluetoothService.session.myPeerID {
-                print("myPlayer variable has been set.")
                 GameStateSingleton.sharedInstance.myPlayer = player
                 return player
             }
@@ -60,12 +64,12 @@ class GameScene: SKScene {
         background.size = self.frame.size
         background.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
         
-        if GS.myTurnToDeal {
-            dealButton.fontSize = 24
-            dealButton.text = "Deal Cards"
-            dealButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.75, y: CGRectGetMaxY(self.frame) / 5)
-            dealButton.zPosition = 1
-            
+        dealButton.fontSize = 24
+        dealButton.text = "Deal Cards"
+        dealButton.position = CGPoint(x: CGRectGetMaxX(self.frame) * 0.75, y: CGRectGetMaxY(self.frame) / 14)
+        dealButton.zPosition = 1
+        
+        if GS.currentDealer.peerID == myPlayer.peerID {
             deck.shuffle()
             placeDeckOnScreen()
             GS.bluetoothService.sendData("deckString" + deck.cardsString)
@@ -85,21 +89,20 @@ class GameScene: SKScene {
         roundLabel.fontSize = 24
         roundLabel.zPosition = 1
         
-        updateLabel.text = "\(GS.orderedPlayers[0].name) is dealing the cards"
+        updateLabel.text = "Loading Game..."
         updateLabel.position = CGPointMake(frame.maxX * 0.75, frame.maxY - 25)
         updateLabel.zPosition = 1
         updateLabel.fontSize = 14
         
         
         self.addChild(background)
-        self.addChild(dealButton)
         self.addChild(updateLabel)
         runBeginingOfRoundFunctions()
         
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        let wait = SKAction.waitForDuration(1.5)
+        let wait = SKAction.waitForDuration(2)
         let block = SKAction.runBlock({self.nextPlayerGoes()})
         let endMyTurn = SKAction.sequence([wait, block])
         for touch in touches {
@@ -107,29 +110,31 @@ class GameScene: SKScene {
                 dealCards()
                 GS.bluetoothService.sendData("dealCards")
                 dealButton.removeFromParent()
-                GS.myTurnToDeal = false
                 self.runAction(endMyTurn)
             }
             if nodeAtPoint(touch.locationInNode(self)) == stickButton {
-                if myPlayer.peerID == GS.orderedPlayers[0].peerID {
+                if myPlayer.peerID == GS.currentDealer.peerID {
                     self.runEndOfRoundFunctions()
                     GS.bluetoothService.sendData("endRound")
                 } else {
                     self.runAction(endMyTurn)
                 }
+                GS.bluetoothService.sendData("updateLabel\(myPlayer.name) stuck")
+                self.updateLabel.text = "\(myPlayer.name) stuck"
                 self.removePlayerOptions()
             }
             if nodeAtPoint(touch.locationInNode(self)) == tradeButton {
-                if myPlayer.peerID != GS.orderedPlayers[0].peerID {
+                if myPlayer.peerID != GS.currentDealer.peerID {
                     self.tradeCardWithPlayer(myPlayer, playerTwo: GS.orderedPlayers[loopableIndex(playerIndexOrder, range: GS.orderedPlayers.count)])
                     GS.bluetoothService.sendData("playerTraded\(myPlayer.name).\(GS.orderedPlayers[loopableIndex(playerIndexOrder, range: GS.orderedPlayers.count)].name)")
                     self.updateLabel.text = "\(myPlayer.name) traded cards with \(GS.orderedPlayers[loopableIndex(playerIndexOrder, range: GS.orderedPlayers.count)].name)"
                     self.runAction(endMyTurn)
                 } else {
                     self.tradeCardWithDeck(myPlayer)
-                    self.runEndOfRoundFunctions()
                     GS.bluetoothService.sendData("hittingDeck\(myPlayer.name)")
-                    
+                    let wait  = SKAction.waitForDuration(3)
+                    let block = SKAction.runBlock({self.runEndOfRoundFunctions(); self.GS.bluetoothService.sendData("endRound")})
+                    self.runAction(SKAction.sequence([wait, block]))
                 }
                 self.removePlayerOptions()
             }
@@ -172,8 +177,9 @@ class GameScene: SKScene {
             let yPos = player.card.position.y + (sin(player.card.zRotation) * 10)
             let moveCard = SKAction.moveTo(CGPoint(x: xPos, y: yPos), duration: 0.5)
             let rotateCard = SKAction.rotateToAngle(player.card.zRotation, duration: 0.5)
-            card.runAction(moveCard)
+            let flipCard = SKAction.runBlock({card.texture = card.frontTexture})
             card.runAction(rotateCard)
+            card.runAction(SKAction.sequence([moveCard, flipCard]))
             card.zPosition = player.card.zPosition + 1
             player.card = card
             player.card.owner = player
@@ -229,7 +235,7 @@ class GameScene: SKScene {
     func addCard(card: Card, zPos: CGFloat) {
         let randomRotation = arc4random_uniform(10)
         card.size = resizeCard(card)
-        card.position = CGPoint(x: frame.maxX * 0.75, y: frame.maxY * 0.4)
+        card.position = CGPoint(x: frame.maxX * 0.75, y: frame.maxY / 4)
         card.zRotation = (CGFloat(randomRotation) - 5) * CGFloat(M_PI) / 180
         card.zPosition = zPos
         card.userInteractionEnabled = true
@@ -261,15 +267,17 @@ class GameScene: SKScene {
             self.deckOfCards.last?.runAction(actionMove)
             self.deckOfCards.last?.runAction(actionRotate)
             
-            let playerLabel = SKLabelNode(fontNamed: "Chalkduster")
-            let fivePercentWidth = self.frame.size.width * 0.05
-            let fivePercentHeight = self.frame.size.height * 0.05
-            playerLabel.text = self.GS.orderedPlayers[self.loopableIndex(self.cardsInPlay.count + 1, range: self.GS.orderedPlayers.count)].name
-            playerLabel.fontSize = 12
-            playerLabel.position = CGPointMake(position.x + (cos(angle) * ((self.deckOfCards.last!.size.width / 2) + fivePercentWidth)), position.y + (sin(angle) * ((self.deckOfCards.last!.size.height / 2) + fivePercentHeight)))
-            playerLabel.zRotation = angle + 90.toRadians()
-            playerLabel.zPosition = 1.0
-            self.addChild(playerLabel)
+            if self.roundNubmer == 1 {
+                let playerLabel = SKLabelNode(fontNamed: "Chalkduster")
+                let fivePercentWidth = self.frame.size.width * 0.05
+                let fivePercentHeight = self.frame.size.height * 0.05
+                playerLabel.text = self.GS.orderedPlayers[self.loopableIndex(self.cardsInPlay.count + 1, range: self.GS.orderedPlayers.count)].name
+                playerLabel.fontSize = 12
+                playerLabel.position = CGPointMake(position.x + (cos(angle) * ((self.deckOfCards.last!.size.width / 2) + fivePercentWidth)), position.y + (sin(angle) * ((self.deckOfCards.last!.size.height / 2) + fivePercentHeight)))
+                playerLabel.zRotation = angle + 90.toRadians()
+                playerLabel.zPosition = 1.0
+                self.addChild(playerLabel)
+            }
             
             
             self.cardsInPlay.append(self.deckOfCards.last!)
@@ -285,26 +293,83 @@ class GameScene: SKScene {
     }
     
     func runEndOfRoundFunctions() {
+        let lowestCardRank: Int = {
+            var rank = 13
+            for player in GS.orderedPlayers {
+                if player.card.rank < rank {
+                    rank = player.card.rank
+                }
+            }
+            return rank
+        }()
+        var playersLost: [String] = []
         for player in GS.orderedPlayers {
             player.card.texture = player.card.frontTexture
+            if player.card.rank == lowestCardRank {
+                player.lives = player.lives - 1
+                playersLost.append(player.name)
+            }
         }
-        print("Running end of round functions")
-        // EVALUATE EVERY PLAYERS CARDS
-        // FIGURE OUT WHICH CARD IS THE SMALLEST
-        // EVERY PLAYER WITH THAT CARD LOSES A LIFE
+        var lostPlayersString = ""
+        for player in playersLost {
+            lostPlayersString += player + ", "
+        }
+        self.updateLabel.text = "\(lostPlayersString)lost this round."
+        
+        let waitFive = SKAction.waitForDuration(5)
+        let trashCards = SKAction.runBlock({self.sendCardsToTrash()})
+        self.runAction(SKAction.sequence([waitFive, trashCards]))
+        
         // IF EVERY PLAYER ONLY HAS 1 LIFE LEFT -> GO INTO DOUBLE GAME
         // UPDATE LEADERBOARD
-        // RUN BEGINING OF ROUND FUNCTIONS
+        
+        let currentDealerIndex: Int = {
+            var index: Int = 0
+            for player in 0 ..< self.GS.orderedPlayers.count {
+                if GS.orderedPlayers[player].peerID == GS.currentDealer.peerID {
+                    index = player
+                }
+            }
+            return index
+        }()
+        let nextPlayer = GS.orderedPlayers[loopableIndex(currentDealerIndex + 1, range: GS.orderedPlayers.count)]
+        
+        self.GS.currentDealer = nextPlayer
+        let waitSix = SKAction.waitForDuration(6)
+        let goIntoNextRound = SKAction.runBlock({self.runBeginingOfRoundFunctions()})
+        self.runAction(SKAction.sequence([waitSix, goIntoNextRound]))
     }
+    
+    func sendCardsToTrash() {
+        for card in cardsInPlay {
+            let trashPosition = CGPoint(x: frame.maxX * 0.9, y: frame.maxY / 4)
+            let randomRotation = (CGFloat(arc4random_uniform(12)) - 6) * CGFloat(M_PI) / 180
+            let moveToTrash = SKAction.moveTo(trashPosition, duration: 1)
+            let rotateToStraight = SKAction.rotateToAngle(randomRotation, duration: 1)
+            card.runAction(moveToTrash)
+            card.runAction(rotateToStraight)
+            cardsInPlay.removeAtIndex(cardsInPlay.indexOf(card)!)
+            cardsInTrash.append(card)
+        }
+    }
+    
+    
     
     func runBeginingOfRoundFunctions() {
         roundNubmer  = roundNubmer + 1
         roundLabel.text = "Round \(roundNubmer)"
-        let wait = SKAction.waitForDuration(1)
+        let wait = SKAction.waitForDuration(1.5)
         let addRoundLabel = SKAction.runBlock({self.addChild(self.roundLabel)})
         let removeLabel = SKAction.runBlock({self.roundLabel.removeFromParent()})
         self.runAction(SKAction.sequence([wait, addRoundLabel, wait, removeLabel]))
         
+        if myPlayer.peerID == GS.currentDealer.peerID {
+            updateLabel.text = "\(myPlayer.name) is dealing the cards"
+            GS.bluetoothService.sendData("updateLabel\(myPlayer.name) is dealing the cards")
+            let waitForthree = SKAction.waitForDuration(3)
+            let addDealButton = SKAction.runBlock({self.addChild(self.dealButton)})
+            self.runAction(SKAction.sequence([waitForthree, addDealButton]))
+        }
         
     }
     
@@ -330,10 +395,14 @@ extension GameScene: GameSceneDelegate {
     }
     func playerTradedWithDeck(player: Player) {
         self.tradeCardWithDeck(player)
-        self.runEndOfRoundFunctions()
     }
     func endRound() {
-        self.runEndOfRoundFunctions()
+        let wait = SKAction.waitForDuration(2.9)
+        let block = SKAction.runBlock({self.runEndOfRoundFunctions()})
+        self.runAction(SKAction.sequence([wait, block]))
+    }
+    func trashCards() {
+        self.sendCardsToTrash()
     }
 }
 

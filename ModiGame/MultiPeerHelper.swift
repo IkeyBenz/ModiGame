@@ -14,6 +14,7 @@ protocol GameSceneDelegate {
     func yourTurn()
     func playersTradedCards(playerOne: Player, playerTwo: Player)
     func playerTradedWithDeck(player: Player)
+    func trashCards()
     func endRound()
 }
 
@@ -29,7 +30,6 @@ class ModiBlueToothService: NSObject {
     
     override init() {
         myPeerID = MCPeerID(displayName: GameStateSingleton.sharedInstance.deviceName)
-        print(myPeerID)
         self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerID, discoveryInfo: nil, serviceType: ModiServiceType)
         self.serviceBrowser = MCNearbyServiceBrowser(peer: myPeerID, serviceType: ModiServiceType)
         super.init()
@@ -117,7 +117,10 @@ extension ModiBlueToothService: MCNearbyServiceAdvertiserDelegate {
     }
     func advertiser(advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: NSData?, invitationHandler: (Bool, MCSession) -> Void) {
         print("Did recieve invitation from \(peerID.displayName)")
-        invitationHandler(true, self.session)
+        if GameStateSingleton.sharedInstance.currentGameState == .WaitingForPlayers {
+            print("Accepting invitation from \(peerID.displayName)")
+            invitationHandler(true, self.session)
+        }
     }
 }
 
@@ -127,8 +130,10 @@ extension ModiBlueToothService: MCNearbyServiceBrowserDelegate {
     }
     func browser(browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         print("Found peer: \(peerID.displayName)")
-        print("Sending invite to: \(peerID.displayName)")
-        browser.invitePeer(peerID, toSession: self.session, withContext: nil, timeout: 30)
+        if GameStateSingleton.sharedInstance.currentGameState == .WaitingForPlayers {
+            print("Sending invite to: \(peerID.displayName)")
+            browser.invitePeer(peerID, toSession: self.session, withContext: nil, timeout: 30)
+        }
     }
     func browser(browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
         print("Lost peer: \(peerID.displayName)")
@@ -156,14 +161,30 @@ extension ModiBlueToothService: MCSessionDelegate {
         if str == "dealCards" {
             gameSceneDelegate?.dealPeersCards()
         }
+
+        if str == "trash" {
+            gameSceneDelegate?.trashCards()
+        }
+        
         if str == "endRound" {
             gameSceneDelegate?.endRound()
         }
+        
         
         if str.characters.count > 9 {
             if str.substringToIndex(str.startIndex.advancedBy(10)) == "deckString" {
                 let deckString = str.stringByReplacingOccurrencesOfString("deckString", withString: "")
                 gameSceneDelegate?.heresTheNewDeck(Deck(withString: deckString))
+            }
+            
+            if str.substringToIndex(str.startIndex.advancedBy(10)) == "nextDealer" {
+                let dealerName = str.stringByReplacingOccurrencesOfString("nextDealer", withString: "")
+                for player in GameStateSingleton.sharedInstance.orderedPlayers {
+                    if player.name == dealerName {
+                        GameStateSingleton.sharedInstance.currentDealer = player
+                    }
+                }
+                
             }
             
             if str.substringToIndex(str.startIndex.advancedBy(9)) == "peerOrder" {
@@ -197,6 +218,14 @@ extension ModiBlueToothService: MCSessionDelegate {
                 self.handleCardSwapUsingString(string)
             }
             
+            if str.substringToIndex(str.startIndex.advancedBy(13)) == "currentDealer" {
+                let currentDealerName = str.stringByReplacingOccurrencesOfString("currentDealer", withString: "")
+                for player in GameStateSingleton.sharedInstance.orderedPlayers {
+                    if player.name == currentDealerName {
+                        GameStateSingleton.sharedInstance.currentDealer = player
+                    }
+                }
+            }
         }
         
         

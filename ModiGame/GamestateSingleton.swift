@@ -19,12 +19,12 @@ class GameStateSingleton {
     }
     
     var currentGameState: GameState = .WaitingForPlayers
-    var myTurnToDeal: Bool = false
     var bluetoothService: ModiBlueToothService!
     var deviceName: String = ""
     var orderedPlayers: [Player] = []
     var playersDictionary: [String: MCPeerID] = [:]
     var myPlayer: Player!
+    var currentDealer: Player!
     
     
 }

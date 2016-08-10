@@ -32,8 +32,8 @@ class ConnectionScene: SKScene {
         startGamebutton.fontSize = 36
         
         self.addChild(connectionsLabel)
-        self.addChild(startGamebutton)
         self.addChild(background)
+        self.addChild(startGamebutton)
         view.addSubview(textField)
         
         
@@ -42,13 +42,12 @@ class ConnectionScene: SKScene {
     func goToGameScene() {
         let skView = self.view! as SKView
         let scene = GameScene(fileNamed: "GameScene")
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+        skView.showsFPS = false
+        skView.showsNodeCount = false
         scene?.scaleMode = .ResizeFill
         skView.presentScene(scene)
     }
     
-    //SIMULATANEOUSLY SETS AND SENDS THE PEER ORDER FOR HOST AND CLIENTS
     func orderedPlayersString() -> String {
         GameStateSingleton.sharedInstance.orderedPlayers = []
         let me = GameStateSingleton.sharedInstance.bluetoothService.session.myPeerID
@@ -65,15 +64,19 @@ class ConnectionScene: SKScene {
         for touch in touches {
             if CGRectContainsPoint(startGamebutton.frame, touch.locationInNode(self)) {
                 GameStateSingleton.sharedInstance.bluetoothService.sendData(orderedPlayersString())
+                GameStateSingleton.sharedInstance.bluetoothService.sendData("currentDealer\(GameStateSingleton.sharedInstance.bluetoothService.session.myPeerID.displayName)")
+                GameStateSingleton.sharedInstance.currentDealer = GameStateSingleton.sharedInstance.orderedPlayers[0]
                 GameStateSingleton.sharedInstance.bluetoothService.sendData("gametime")
-                GameStateSingleton.sharedInstance.myTurnToDeal = true
                 self.goToGameScene()
             }
         }
     }
     func initializeBluetooth(textField: UITextField) {
-        print("yes")
-        GameStateSingleton.sharedInstance.deviceName = textField.text!
+        if textField.text != nil {
+            GameStateSingleton.sharedInstance.deviceName = textField.text!
+        } else {
+            GameStateSingleton.sharedInstance.deviceName = "Missing name"
+        }
         textField.resignFirstResponder()
         let modiService = ModiBlueToothService()
         GameStateSingleton.sharedInstance.bluetoothService = modiService
@@ -85,7 +88,6 @@ extension ConnectionScene: ConnectionSceneDelegate {
     func connectedDevicesChanged(manager: ModiBlueToothService, connectedDevices: [String]) {
         self.connectionsLabel.text = String(connectedDevices)
         
-        //UPDATE PLAYER DICTIONARY
         GameStateSingleton.sharedInstance.playersDictionary = [:]
         
         let me = GameStateSingleton.sharedInstance.bluetoothService.session.myPeerID
