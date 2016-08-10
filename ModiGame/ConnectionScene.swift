@@ -17,6 +17,11 @@ class ConnectionScene: SKScene {
         background.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
         background.zPosition = 0
         
+        
+        
+       
+        
+        
         textField = UITextField(frame: CGRect(x: view.frame.origin.x, y: view.frame.origin.y, width: 400, height: 40))
         textField.placeholder = "Type your name here"
         textField.font = UIFont(name: "Chalkduster", size: 24)
@@ -30,10 +35,22 @@ class ConnectionScene: SKScene {
         startGamebutton.position = CGPoint(x: connectionsLabel.position.x, y: CGRectGetMaxY(frame) / 4)
         startGamebutton.text = "Start Game"
         startGamebutton.fontSize = 36
+        startGamebutton.zPosition = 11
+        
+        
+        let buttonImage = SKSpriteNode(imageNamed: "Button")
+        buttonImage.position = startGamebutton.position
+        buttonImage.zPosition = 10
+        buttonImage.centerRect = CGRectMake(17.0/62.0, 17.0/74.0, 28.0/62.0, 39.0/74.0);
+        buttonImage.anchorPoint = CGPoint(x: 0.5, y: 0.25)
+        buttonImage.xScale = startGamebutton.frame.width / buttonImage.frame.width + 0.3
+        buttonImage.yScale = startGamebutton.frame.height / buttonImage.frame.height + 0.3
+        print(startGamebutton.frame)
         
         self.addChild(connectionsLabel)
         self.addChild(background)
         self.addChild(startGamebutton)
+        self.addChild(buttonImage)
         view.addSubview(textField)
         
         
