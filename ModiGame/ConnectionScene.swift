@@ -4,56 +4,94 @@ import SpriteKit
 class ConnectionScene: SKScene {
     
     
-    var connectionsLabel = SKLabelNode(fontNamed: "Chalkduster")
     let startGamebutton = SKLabelNode(fontNamed: "Chalkduster")
+    var buttonImage = SKSpriteNode(imageNamed: "Button")
     var textField: UITextField!
+    var textFieldImage = SKSpriteNode(imageNamed: "TextField")
+    var tableViewImage = SKSpriteNode(imageNamed: "TableViewBorder")
+    var yourNameLabel = SKLabelNode(fontNamed: "Chalkduster")
+    
+    var peerOne = SKLabelNode(fontNamed: "Chalkduster")
+    var peerTwo = SKLabelNode(fontNamed: "Chalkduster")
+    var peerThree = SKLabelNode(fontNamed: "Chalkduster")
+    var peerFour = SKLabelNode(fontNamed: "Chalkduster")
+    var peerFive = SKLabelNode(fontNamed: "Chalkduster")
+    var peerSix = SKLabelNode(fontNamed: "Chalkduster")
+    var peerSeven = SKLabelNode(fontNamed: "Chalkduster")
+    var peerLabels: [SKLabelNode] = []
     
     override func didMoveToView(view: SKView) {
         
-        print("In the connections scene")
+        positionPeerLabels()
         
         let background = SKSpriteNode(imageNamed: "Felt")
         background.size = self.frame.size
         background.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
         background.zPosition = 0
         
+        yourNameLabel.text = "Your name:"
+        yourNameLabel.fontSize = 18
+        yourNameLabel.position = CGPoint(x: frame.width * 0.15 + (yourNameLabel.frame.width / 2), y: frame.height * 0.8)
+        yourNameLabel.zPosition = 10
         
+        self.addChild(yourNameLabel)
         
-       
-        
-        
-        textField = UITextField(frame: CGRect(x: view.frame.origin.x, y: view.frame.origin.y, width: 400, height: 40))
+        textField = UITextField(frame: CGRect(x: CGRectGetMaxX(yourNameLabel.frame) + 20, y: frame.height - yourNameLabel.position.y - 25, width: 400, height: 40))
         textField.placeholder = "Type your name here"
-        textField.font = UIFont(name: "Chalkduster", size: 24)
+        textField.font = UIFont(name: "Chalkduster", size: 17)
+        textField.textColor = UIColor.whiteColor()
         textField.delegate = self
         
-        connectionsLabel.fontSize = 36
-        connectionsLabel.position = CGPoint(x: CGRectGetMidX(frame), y: CGRectGetMidY(frame))
-        connectionsLabel.zPosition = 1
-        connectionsLabel.text = "Connected Players:"
+        textFieldImage.centerRect = CGRectMake(8.5 / 240, 7.5 / 32, 223 / 240, 17 / 32)
+        textFieldImage.anchorPoint = CGPoint(x: 0.0, y: 0.5)
+        textFieldImage.position = CGPoint(x: CGRectGetMaxX(yourNameLabel.frame) + 10, y: CGRectGetMidY(yourNameLabel.frame) - 2)
+        textFieldImage.zPosition = 11
+        textFieldImage.xScale = ((frame.width * 0.85) - CGRectGetMinX(textFieldImage.frame)) / textFieldImage.frame.width
+        self.addChild(textFieldImage)
         
-        startGamebutton.position = CGPoint(x: connectionsLabel.position.x, y: CGRectGetMaxY(frame) / 4)
+        tableViewImage.centerRect = CGRectMake(10 / 458, 9 / 150, 438 / 458, 132 / 150)
+        tableViewImage.position = CGPoint(x: ((frame.width * 0.15) + (tableViewImage.frame.width / 2)), y: frame.height / 2)
+        tableViewImage.xScale = (frame.width * 0.85 - CGRectGetMinX(tableViewImage.frame)) / tableViewImage.frame.width
+        tableViewImage.position = CGPoint(x: ((frame.width * 0.15) + (tableViewImage.frame.width / 2)), y: frame.height / 2)
+        tableViewImage.zPosition = 11
+        self.addChild(tableViewImage)
+        
+        
+        startGamebutton.position = CGPoint(x: frame.width / 2, y: CGRectGetMaxY(frame) / 8)
         startGamebutton.text = "Start Game"
-        startGamebutton.fontSize = 36
+        startGamebutton.fontSize = 18
         startGamebutton.zPosition = 11
         
-        
-        let buttonImage = SKSpriteNode(imageNamed: "Button")
         buttonImage.position = startGamebutton.position
         buttonImage.zPosition = 10
         buttonImage.centerRect = CGRectMake(17.0/62.0, 17.0/74.0, 28.0/62.0, 39.0/74.0);
-        buttonImage.anchorPoint = CGPoint(x: 0.5, y: 0.25)
-        buttonImage.xScale = startGamebutton.frame.width / buttonImage.frame.width + 0.3
-        buttonImage.yScale = startGamebutton.frame.height / buttonImage.frame.height + 0.3
+        buttonImage.anchorPoint = CGPoint(x: 0.5, y: 0.3)
+        buttonImage.xScale = startGamebutton.frame.width / buttonImage.frame.width + 1
+        buttonImage.yScale = startGamebutton.frame.height / buttonImage.frame.height + 0.5
         print(startGamebutton.frame)
         
-        self.addChild(connectionsLabel)
         self.addChild(background)
         self.addChild(startGamebutton)
         self.addChild(buttonImage)
         view.addSubview(textField)
         
         
+    }
+    
+    func positionPeerLabels() {
+        peerLabels = [peerOne, peerTwo, peerThree, peerFour, peerFive, peerSix, peerSeven]
+        for label in peerLabels {
+            tableViewImage.addChild(label)
+            label.fontSize = 14
+            label.text = "Not Connected"
+        }
+        peerOne.position = CGPoint(x: -(tableViewImage.frame.width / 4), y: -(tableViewImage.frame.height / 2) + (tableViewImage.frame.height / 5 * 4))
+        peerTwo.position = CGPoint(x: -(tableViewImage.frame.width / 4), y: -(tableViewImage.frame.height / 2) + (tableViewImage.frame.height / 5 * 3))
+        peerThree.position = CGPoint(x: -(tableViewImage.frame.width / 4), y: -(tableViewImage.frame.height / 2) + (tableViewImage.frame.height / 5 * 2))
+        peerFour.position = CGPoint(x: -(tableViewImage.frame.width / 4), y: -(tableViewImage.frame.height / 2) + (tableViewImage.frame.height / 5))
+        peerFive.position = CGPoint(x: tableViewImage.frame.width / 4, y: -(tableViewImage.frame.height / 2) + (tableViewImage.frame.height / 5 * 4))
+        peerSix.position = CGPoint(x: tableViewImage.frame.width / 4, y: -(tableViewImage.frame.height / 2) + (tableViewImage.frame.height / 5 * 3))
+        peerSeven.position = CGPoint(x: tableViewImage.frame.width / 4, y: -(tableViewImage.frame.height / 2) + (tableViewImage.frame.height / 5 * 2))
     }
     
     func goToGameScene() {
@@ -80,12 +118,21 @@ class ConnectionScene: SKScene {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
             if CGRectContainsPoint(startGamebutton.frame, touch.locationInNode(self)) {
+                buttonImage.texture = SKTexture(imageNamed: "ButtonPressed")
+            }
+        }
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in touches {
+            if CGRectContainsPoint(startGamebutton.frame, touch.locationInNode(self)) {
                 GameStateSingleton.sharedInstance.bluetoothService.sendData(orderedPlayersString())
                 GameStateSingleton.sharedInstance.bluetoothService.sendData("currentDealer\(GameStateSingleton.sharedInstance.bluetoothService.session.myPeerID.displayName)")
                 GameStateSingleton.sharedInstance.currentDealer = GameStateSingleton.sharedInstance.orderedPlayers[0]
                 GameStateSingleton.sharedInstance.bluetoothService.sendData("gametime")
                 self.goToGameScene()
             }
+            buttonImage.texture = SKTexture(imageNamed: "Button")
         }
     }
     func initializeBluetooth(textField: UITextField) {
@@ -103,7 +150,14 @@ class ConnectionScene: SKScene {
 
 extension ConnectionScene: ConnectionSceneDelegate {
     func connectedDevicesChanged(manager: ModiBlueToothService, connectedDevices: [String]) {
-        self.connectionsLabel.text = String(connectedDevices)
+        
+        for peerLabel in peerLabels {
+            peerLabel.text = "Not Connected"
+        }
+        
+        for peerIndex in 0 ..< GameStateSingleton.sharedInstance.bluetoothService.session.connectedPeers.count {
+            self.peerLabels[peerIndex].text = GameStateSingleton.sharedInstance.bluetoothService.session.connectedPeers[peerIndex].displayName
+        }
         
         GameStateSingleton.sharedInstance.playersDictionary = [:]
         
